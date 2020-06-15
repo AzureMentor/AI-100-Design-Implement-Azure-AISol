@@ -1,16 +1,16 @@
-# lab02.3-luis_and_search - Developing Intelligent Applications with LUIS and Azure Search
+# lab02.3-luis_and_search - Developing Intelligent Applications with LUIS and Azure Cognitive Search
 
-This hands-on lab guides you through creating an intelligent bot from end-to-end using the Microsoft Bot Framework, Azure Search and several Cognitive Services. 
+This hands-on lab guides you through creating an intelligent bot from end-to-end using the Microsoft Bot Framework, Azure Cognitive Search and several Cognitive Services. 
 
 In this workshop, you will:
 - Understand how to weave intelligent services into your applications
-- Understand how to implement Azure Search features to provide a positive search experience inside applications
-- Configure an Azure Search service to extend your data to enable full-text, language-aware search
+- Understand how to implement Azure Cognitive Search features to provide a positive search experience inside applications
+- Configure an Azure Cognitive Search service to extend your data to enable full-text, language-aware search
 - Build, train and publish a LUIS model to help your bot communicate effectively
-- Build an intelligent bot using Microsoft Bot Framework that leverages LUIS and Azure Search
+- Build an intelligent bot using Microsoft Bot Framework that leverages LUIS and Azure Cognitive Search
 - Call various Cognitive Services APIs (specifically Computer Vision, Face, Emotion and LUIS) in .NET applications
 
-While there is a focus on LUIS and Azure Search, you will also leverage the following technologies:
+While there is a focus on LUIS and Azure Cognitive Search, you will also leverage the following technologies:
 
 - Computer Vision API
 - Face API
@@ -20,7 +20,6 @@ While there is a focus on LUIS and Azure Search, you will also leverage the foll
 - CosmosDB
 - Azure Storage
 - Visual Studio
-
 
 ## Prerequisites
 
@@ -34,7 +33,7 @@ Thirdly, you should have experience with the portal and be able to create resour
 
 ## Intro
 
-We're going to build an end-to-end scenario that allows you to pull in your own pictures, use Cognitive Services to find objects and people in the images, figure out how those people are feeling, and store all of that data into a NoSQL Store (DocumentDB). We use that NoSQL Store to populate an Azure Search index, and then build a Bot Framework bot using LUIS to allow easy, targeted querying.
+We're going to build an end-to-end scenario that allows you to pull in your own pictures, use Cognitive Services to find objects and people in the images, figure out how those people are feeling, and store all of that data into a NoSQL Store (DocumentDB). We use that NoSQL Store to populate an Azure Cognitive Search index, and then build a Bot Framework bot using LUIS to allow easy, targeted querying.
 
 ## Architecture
 
@@ -46,7 +45,7 @@ We will build a simple C# application that allows you to ingest pictures from yo
 
 Once we have this data, we process it to pull out the details we need, and store it all into [DocumentDB](https://azure.microsoft.com/en-us/services/documentdb/), our [NoSQL](https://en.wikipedia.org/wiki/NoSQL) [PaaS](https://azure.microsoft.com/en-us/overview/what-is-paas/) offering.
 
-Once we have it in DocumentDB, we'll build an [Azure Search](https://azure.microsoft.com/en-us/services/search/) Index on top of it (Azure Search is our PaaS offering for faceted, fault-tolerant search - think Elastic Search without the management overhead). We'll show you how to query your data, and then build a [Bot Framework](https://dev.botframework.com/) bot to query it. Finally, we'll extend this bot with [LUIS](https://www.microsoft.com/cognitive-services/en-us/language-understanding-intelligent-service-luis) to automatically derive intent from your queries and use those to direct your searches intelligently. 
+Once we have it in DocumentDB, we'll build an [Azure Cognitive Search](https://azure.microsoft.com/en-us/services/search/) Index on top of it (Azure Cognitive Search is our PaaS offering for faceted, fault-tolerant search - think Elastic Search without the management overhead). We'll show you how to query your data, and then build a [Bot Framework](https://dev.botframework.com/) bot to query it. Finally, we'll extend this bot with [LUIS](https://www.microsoft.com/cognitive-services/en-us/language-understanding-intelligent-service-luis) to automatically derive intent from your queries and use those to direct your searches intelligently. 
 
 ![Architecture Diagram](./resources/assets/AI_Immersion_Arch.png)
 
@@ -84,13 +83,13 @@ Once you're connected, there are several things you need to do to set up the DSV
 
 1. Navigate to this repository in Firefox, and download it as a zip file. Extract all the files, and move the folder for this lab to your Desktop.
 2. Open "ImageProcessing.sln" which is under resources>code>ImageProcessing. It may take a while for Visual Studio to open for the first time, and you will have to log in.
-3. Once it's open, you will be prompted to install the SDK for Windows 10 App Development (UWP). Follow the prompts to install it. If you aren't prompted, right click on TestApp and select "Reload project", then you will be prompted.
+3. Once it's open, you will be prompted to install the SDK for Windows 10 App Development (UWP). Follow the prompts to install it. If you aren't prompted, right-click on TestApp and select "Reload project", then you will be prompted.
 4. While it's installing, there are a few tasks you can complete: 
 	- Type in the Cortana search bar "For developers settings" and change the settings to "Developer Mode".
 	- Type in the Cortana search bar "gpedit.msc" and push enter. Enable the following policy: Computer Configuration>Windows Settings>Security Settings>Local Policies>Security Options>User Account Control: Admin Approval Mode for the Built-in Administrator account
 	- Start the "Collecting the keys" lab. 
 5. Once the install is complete and you have changed your devleoper settings and the User Account Control policy, reboot your DSVM. 
-> Note: Be sure to turn off your DSVM after the workshop so you don't get charged.
+> **Note** Be sure to turn off your DSVM after the workshop so you don't get charged.
 
 
 ### Lab: Collecting the Keys
@@ -130,7 +129,7 @@ Since we'll be using [LUIS](https://www.microsoft.com/cognitive-services/en-us/l
 
 **Setting up Storage**
 
-We'll be using two different stores in Azure for this project - one for storing the raw images, and the other for storing the results of our Cognitive Service calls. Azure Blob Storage is made for storing large amounts of data in a format that looks similar to a file-system, and is a great choice for storing data like images. Azure Cosmos DB is our resilient NoSQL PaaS solution, and is incredibly useful for storing loosely structured data like we have with our image metadata results. There are other possible choices (Azure Table Storage, SQL Server), but Cosmos DB gives us the flexibility to evolve our schema freely (like adding data for new services), query it easily, and can be quickly integrated into Azure Search.
+We'll be using two different stores in Azure for this project - one for storing the raw images, and the other for storing the results of our Cognitive Service calls. Azure Blob Storage is made for storing large amounts of data in a format that looks similar to a file-system, and is a great choice for storing data like images. Azure Cosmos DB is our resilient NoSQL PaaS solution, and is incredibly useful for storing loosely structured data like we have with our image metadata results. There are other possible choices (Azure Table Storage, SQL Server), but Cosmos DB gives us the flexibility to evolve our schema freely (like adding data for new services), query it easily, and can be quickly integrated into Azure Cognitive Search.
 
 _Azure Blob Storage_
 
@@ -169,7 +168,7 @@ You'll need the **URI** and the **PRIMARY KEY** for your _TestCLI's_ `settings.j
 
 ## Cognitive Services
 
-The focus of this workshop is not on all of the Cognitive Services APIs. We will be focusing on Azure Search and LUIS. However, if you are interested in getting more practice with Cognitive Services, I recommend checking out -TODO: Add reference lab link-Lab 1, where you build an intelligent kiosk using several Cognitive Services. 
+The focus of this workshop is not on all of the Cognitive Services APIs. We will be focusing on Azure Cognitive Search and LUIS. However, if you are interested in getting more practice with Cognitive Services, I recommend checking out -TODO: Add reference lab link-Lab 1, where you build an intelligent kiosk using several Cognitive Services. 
 
 For the purposes of this workshop, we will be using the Computer Vision API to get understanding of images (via tags and descriptions), the Face API to keep track of all of the faces in the images we upload, and the Emotion API to grab a score of which emotions people have in the images. We will simply call the API to get that information. There is no training or testing that we need to do. 
 
@@ -224,9 +223,9 @@ Once it's done processing, you can query against your Cosmos DB directly using _
 
     > .\bin\Debug\TestCLI.exe -query "select * from images"
 
-## Azure Search 
+## Azure Cognitive Search
 
-[Azure Search](https://docs.microsoft.com/en-us/azure/search/search-what-is-azure-search) is a search-as-a-service solution allowing developers to incorporate great search experiences into applications without managing infrastructure or needing to become search experts.
+[Azure Cognitive Search](https://docs.microsoft.com/en-us/azure/search/search-what-is-azure-search) is a search-as-a-service solution allowing developers to incorporate great search experiences into applications without managing infrastructure or needing to become search experts.
 
 Developers look for PaaS services in Azure to achieve better results faster in their apps. Search is a key to many categories of applications. Web search engines have set the bar high for search; users expect instant results, auto-complete as they type, highlighting hits within the results, great ranking, and the ability to understand what they are looking for, even if they spell it incorrectly or include extra words.
 
@@ -234,38 +233,38 @@ Search is a hard and rarely a core expertise area. From an infrastructure standp
 
 ![Example of Search Requirements](./resources/assets/AzureSearch-Example.png) 
 
-The example above illustrates some of the components users are expecting in their search experience. [Azure Search](https://docs.microsoft.com/en-us/azure/search/search-what-is-azure-search) can accomplish these user experience features, along with giving you [monitoring and reporting](https://docs.microsoft.com/en-us/azure/search/search-traffic-analytics), [simple scoring](https://docs.microsoft.com/en-us/rest/api/searchservice/add-scoring-profiles-to-a-search-index), and tools for [prototyping](https://docs.microsoft.com/en-us/azure/search/search-import-data-portal) and [inspection](https://docs.microsoft.com/en-us/azure/search/search-explorer).
+The example above illustrates some of the components users are expecting in their search experience. [Azure Cognitive Search](https://docs.microsoft.com/en-us/azure/search/search-what-is-azure-search) can accomplish these user experience features, along with giving you [monitoring and reporting](https://docs.microsoft.com/en-us/azure/search/search-traffic-analytics), [simple scoring](https://docs.microsoft.com/en-us/rest/api/searchservice/add-scoring-profiles-to-a-search-index), and tools for [prototyping](https://docs.microsoft.com/en-us/azure/search/search-import-data-portal) and [inspection](https://docs.microsoft.com/en-us/azure/search/search-explorer).
 
 Typical Workflow:
 1. Provision service
-	- You can create or provision an Azure Search service from the [portal](https://docs.microsoft.com/en-us/azure/search/search-create-service-portal) or with [PowerShell](https://docs.microsoft.com/en-us/azure/search/search-manage-powershell).
+	- You can create or provision an Azure Cognitive Search service from the [portal](https://docs.microsoft.com/en-us/azure/search/search-create-service-portal) or with [PowerShell](https://docs.microsoft.com/en-us/azure/search/search-manage-powershell).
 2. Create an index
 	- An [index](https://docs.microsoft.com/en-us/azure/search/search-what-is-an-index) is a container for data, think "table". It has schema, [CORS options](https://docs.microsoft.com/en-us/aspnet/core/security/cors), search options. You can create it in the [portal](https://docs.microsoft.com/en-us/azure/search/search-create-index-portal) or during [app initialization](https://docs.microsoft.com/en-us/azure/search/search-create-index-dotnet). 
 3. Index data
-	- There are two ways to [populate an index with your data](https://docs.microsoft.com/en-us/azure/search/search-what-is-data-import). The first option is to manually push your data into the index using the Azure Search [REST API](https://docs.microsoft.com/en-us/azure/search/search-import-data-rest-api) or [.NET SDK](https://docs.microsoft.com/en-us/azure/search/search-import-data-dotnet). The second option is to point a [supported data source](https://docs.microsoft.com/en-us/azure/search/search-indexer-overview) to your index and let Azure Search automatically pull in the data on a schedule.
+	- There are two ways to [populate an index with your data](https://docs.microsoft.com/en-us/azure/search/search-what-is-data-import). The first option is to manually push your data into the index using the Azure Cognitive Search [REST API](https://docs.microsoft.com/en-us/azure/search/search-import-data-rest-api) or [.NET SDK](https://docs.microsoft.com/en-us/azure/search/search-import-data-dotnet). The second option is to point a [supported data source](https://docs.microsoft.com/en-us/azure/search/search-indexer-overview) to your index and let Azure Cognitive Search automatically pull in the data on a schedule.
 4. Search an index
-	- When submitting search requests to Azure Search, you can use simple search options, you can [filter](https://docs.microsoft.com/en-us/azure/search/search-filters), [sort](https://docs.microsoft.com/en-us/rest/api/searchservice/add-scoring-profiles-to-a-search-index), [project](https://docs.microsoft.com/en-us/azure/search/search-faceted-navigation), and [page over results](https://docs.microsoft.com/en-us/azure/search/search-pagination-page-layout). You have the ability to address spelling mistakes, phonetics, and Regex, and there are options for working with search and [suggest](https://docs.microsoft.com/en-us/rest/api/searchservice/suggesters). These query parameters allow you to achieve deeper control of the [full-text search experience](https://docs.microsoft.com/en-us/azure/search/search-query-overview)
+	- When submitting search requests to Azure Cognitive Search, you can use simple search options, you can [filter](https://docs.microsoft.com/en-us/azure/search/search-filters), [sort](https://docs.microsoft.com/en-us/rest/api/searchservice/add-scoring-profiles-to-a-search-index), [project](https://docs.microsoft.com/en-us/azure/search/search-faceted-navigation), and [page over results](https://docs.microsoft.com/en-us/azure/search/search-pagination-page-layout). You have the ability to address spelling mistakes, phonetics, and Regex, and there are options for working with search and [suggest](https://docs.microsoft.com/en-us/rest/api/searchservice/suggesters). These query parameters allow you to achieve deeper control of the [full-text search experience](https://docs.microsoft.com/en-us/azure/search/search-query-overview)
 
 
-### Lab: Create an Azure Search Service
+### Lab: Create an Azure Cognitive Search Service
 
-Within the Azure Portal, click **New->Web + Mobile->Azure Search**.
+Within the Azure Portal, click **New->Web + Mobile->Azure Cognitive Search**.
 
 Once you click this, you'll have to fill out a few fields as you see fit. For this lab, a "Free" tier is sufficient.
 
-![Create New Azure Search Service](./resources/assets/AzureSearch-CreateSearchService.png)
+![Create New Azure Cognitive Search Service](./resources/assets/AzureSearch-CreateSearchService.png)
 
 Once creation is complete, open the panel for your new search service.
 
-### Lab: Create an Azure Search Index
+### Lab: Create an Azure Cognitive Search Index
 
-An Index is the container for your data and is a similar concept to that of a SQL Server table.  Like a table has rows, an Index has documents.  Like a table that has fields, an Index has fields.  These fields can have properties that tell things such as if it is full text searchable, or if it is filterable.  You can populate content into Azure Search by programatically [pushing content](https://docs.microsoft.com/en-us/rest/api/searchservice/addupdate-or-delete-documents) or by using the [Azure Search Indexer](https://docs.microsoft.com/en-us/azure/search/search-indexer-overview) (which can crawl common datastores for data).
+An Index is the container for your data and is a similar concept to that of a SQL Server table.  Like a table has rows, an Index has documents.  Like a table that has fields, an Index has fields.  These fields can have properties that tell things such as if it is full text searchable, or if it is filterable.  You can populate content into Azure Cognitive Search by programatically [pushing content](https://docs.microsoft.com/en-us/rest/api/searchservice/addupdate-or-delete-documents) or by using the [Azure Cognitive Search Indexer](https://docs.microsoft.com/en-us/azure/search/search-indexer-overview) (which can crawl common datastores for data).
 
-For this lab, we will use the [Azure Search Indexer for Cosmos DB](https://docs.microsoft.com/en-us/azure/search/search-howto-index-documentdb) to crawl the data in the the Cosmos DB container. 
+For this lab, we will use the [Azure Cognitive Search Indexer for Cosmos DB](https://docs.microsoft.com/en-us/azure/search/search-howto-index-documentdb) to crawl the data in the the Cosmos DB container. 
 
 ![Import Wizard](./resources/assets/AzureSearch-ImportData.png) 
 
-Within the Azure Search blade you just created, click **Import Data->Data Source->Document DB**.
+Within the Azure Cognitive Search blade you just created, click **Import Data->Data Source->Document DB**.
 
 ![Import Wizard for DocDB](./resources/assets/AzureSearch-DataSource.png) 
 
@@ -273,7 +272,7 @@ Once you click this, choose a name for the Cosmos DB datasource and choose the C
 
 Click **OK**.
 
-At this point Azure Search will connect to your Cosmos DB container and analyze a few documents to identify a default schema for your Azure Search Index.  After this is complete, you can set the properties for the fields as needed by your application.
+At this point Azure Cognitive Search will connect to your Cosmos DB container and analyze a few documents to identify a default schema for your Azure Cognitive Search Index.  After this is complete, you can set the properties for the fields as needed by your application.
 
 Update the Index name to: **images**
 
@@ -289,15 +288,15 @@ Set the fields **Tags, NumFaces, and Faces** to be **Facetable** (to allow the c
 
 Set the fields **Caption, Tags, and Faces** to be **Searchable** (to allow the client to do full text search over the text in these fields)
 
-![Configure Azure Search Index](./resources/assets/AzureSearch-ConfigureIndex.png) 
+![Configure Azure Cognitive Search Index](./resources/assets/AzureSearch-ConfigureIndex.png) 
 
-At this point we will configure the Azure Search Analyzers.  At a high level, you can think of an analyzer as the thing that takes the terms a user enters and works to find the best matching terms in the Index.  Azure Search includes analyzers that are used in technologies like Bing and Office that have deep understanding of 56 languages.  
+At this point we will configure the Azure Cognitive Search Analyzers.  At a high level, you can think of an analyzer as the thing that takes the terms a user enters and works to find the best matching terms in the Index.  Azure Cognitive Search includes analyzers that are used in technologies like Bing and Office that have deep understanding of 56 languages.  
 
 Click the **Analyzer** tab and set the fields **Caption, Tags, and Faces** to use the **English-Microsoft** analyzer
 
 ![Language Analyzers](./resources/assets/AzureSearch-Analyzer.png) 
 
-For the final Index configuration step we will set the fields that will be used for type ahead, allowing the user to type parts of a word where Azure Search will look for best matches in these fields
+For the final Index configuration step we will set the fields that will be used for type ahead, allowing the user to type parts of a word where Azure Cognitive Search will look for best matches in these fields
 
 Click the **Suggester** tab and enter a Suggester Name: **sg** and choose **Tags and Faces** to be the fields to look for term suggestions
 
@@ -305,7 +304,7 @@ Click the **Suggester** tab and enter a Suggester Name: **sg** and choose **Tags
 
 Click **OK** to complete the configuration of the Indexer.  You could set at schedule for how often the Indexer should check for changes, however, for this lab we will just run it once.  
 
-Click **Advanced Options** and choose to **Base 64 Encode Keys** to ensure that the ID field only uses characters supported in the Azure Search key field.
+Click **Advanced Options** and choose to **Base 64 Encode Keys** to ensure that the ID field only uses characters supported in the Azure Cognitive Search key field.
 
 Click **OK, three times** to start the Indexer job that will start the importing of the data from the Cosmos DB database.
 
@@ -313,7 +312,7 @@ Click **OK, three times** to start the Indexer job that will start the importing
 
 ***Query the Search Index***
 
-You should see a message pop up indicating that Indexing has started.  If you wish to check the status of the Index, you can choose the "Indexes" option in the main Azure Search blade.
+You should see a message pop up indicating that Indexing has started.  If you wish to check the status of the Index, you can choose the "Indexes" option in the main Azure Cognitive Search blade.
 
 At this point we can try searching the index.  
 
@@ -325,16 +324,16 @@ Click **Search** to search for all documents.
 
 **Finish early? Try this extra credit lab:**
 
-[Postman](https://www.getpostman.com/) is a great tool that allows you to easily execute Azure Search REST API calls and is a great debugging tool.  You can take any query from the Azure Search Explorer and along with an Azure Search API key to be executed within Postman.
+[Postman](https://www.getpostman.com/) is a great tool that allows you to easily execute Azure Cognitive Search REST API calls and is a great debugging tool.  You can take any query from the Azure Cognitive Search Explorer and along with an Azure Cognitive Search API key to be executed within Postman.
 
 Download the [Postman](https://www.getpostman.com/) tool and install it. 
 
-After you have installed it, take a query from the Azure Search explorer and paste it into Postman, choosing GET as the request type.  
+After you have installed it, take a query from the Azure Cognitive Search explorer and paste it into Postman, choosing GET as the request type.  
 
 Click on Headers and enter the following parameters:
 
 + Content Type: application/json
-+ api-key: [Enter your API key from the Azure Search potal under the "Keys" section]
++ api-key: [Enter your API key from the Azure Cognitive Search potal under the "Keys" section]
 
 Choose send and you should see the data formatted in JSON format.
 
@@ -450,7 +449,7 @@ Explore using custom entities of entity type "List" to capture emotion and gende
 
 ![Custom Emotion Entity with List](./resources/assets/CustomEmotionEntityWithList.jpg) 
 
-> Note: When you add more entities or features, don't forget to go to `Intents>Utterances` and confirm/add more utterances with the entities you add. Also, you will need to retrain and publish your model.
+> **Note** When you add more entities or features, don't forget to go to `Intents>Utterances` and confirm/add more utterances with the entities you add. Also, you will need to retrain and publish your model.
 
 ## Building a Bot
 
@@ -459,7 +458,7 @@ We assume that you've had some exposure to the Bot Framework. If you have, great
 ### Lab: Setting up for bot development
 
 We will be developing a bot using the C# SDK.  To get started, you need two things:
-1. The Bot Framework project template, which you can download [here](https://aka.ms/bf-bc-vstemplate).  The file is called "Bot Application.zip" and you should save it into the \Documents\Visual Studio 2017\Templates\ProjectTemplates\Visual C#\ directory.  Just drop the whole zipped file in there; no need to unzip.  
+1. The Bot Framework project template, which you can download [here](https://aka.ms/bf-bc-vstemplate).  The file is called "Bot Application.zip" and you should save it into the \Documents\Visual Studio 2019\Templates\ProjectTemplates\Visual C#\ directory.  Just drop the whole zipped file in there; no need to unzip.  
 2. Download the Bot Framework Emulator for testing your bot locally [here](https://emulator.botframework.com/).  The emulator installs to `c:\Users\`_your-username_`\AppData\Local\botframework\app-3.5.27\botframework-emulator.exe`. 
 
 ### Lab: Creating a simple bot and running it
@@ -468,7 +467,7 @@ In Visual Studio, go to File --> New Project and create a Bot Application named 
 
 ![New Bot Application](./resources/assets/NewBotApplication.jpg) 
 
-Browse around and examine the sample bot code, which is an echo bot that repeats back your message and its length in characters.  In particular, note:
+Browse around and examine the sample bot code, which is an echo bot that repeats back your message and its length in characters.  In particular, **Note**
 + In **WebApiConfig.cs** under App_Start, the route template is api/{controller}/{id} where the id is optional.  That is why we always call the bot's endpoint with api/messages appended at the end.  
 + The **MessagesController.cs** under Controllers is therefore the entry point into your bot.  Notice that a bot can respond to many different activity types, and sending a message will invoke the RootDialog.  
 + In **RootDialog.cs** under Dialogs, "StartAsync" is the entry point which waits for a message from the user, and "MessageReceivedAsync" is the method that will handle the message once received and then wait for further messages.  We can use "context.PostAsync" to send a message from the bot back to the user.  
@@ -573,32 +572,32 @@ For these changes to be picked up by your bot, you must re-train and re-publish 
 
 > Fun Aside: The Suggested Utterances are extremely powerful.  LUIS makes smart decisions about which utterances to surface.  It chooses the ones that will help it improve the most to have manually labelled by a human-in-the-loop.  For example, if the LUIS model predicted that a given utterance mapped to Intent1 with 47% confidence and predicted that it mapped to Intent2 with 48% confidence, that is a strong candidate to surface to a human to manually map, since the model is very close between two intents.  
 
-Now that we can use our LUIS model to figure out the user's intent, let's integrate Azure search to find our pictures.  
+Now that we can use our LUIS model to figure out the user's intent, let's integrate Azure Cognitive Search to find our pictures.  
 
-### Lab: Configure your bot for Azure Search 
+### Lab: Configure your bot for Azure Cognitive Search 
 
-First, we need to provide our bot with the relevant information to connect to an Azure Search index.  The best place to store connection information is in the configuration file.  
+First, we need to provide our bot with the relevant information to connect to an Azure Cognitive Search index.  The best place to store connection information is in the configuration file.  
 
 Open Web.config and in the appSettings section, add the following:
 
 ```xml    
-    <!-- Azure Search Settings -->
+    <!-- Azure Cognitive Search Settings -->
     <add key="SearchDialogsServiceName" value="" />
     <add key="SearchDialogsServiceKey" value="" />
     <add key="SearchDialogsIndexName" value="images" />
 ```
 
-Set the value for the SearchDialogsServiceName to be the name of the Azure Search Service that you created earlier.  If needed, go back and look this up in the [Azure portal](https://portal.azure.com).  
+Set the value for the SearchDialogsServiceName to be the name of the Azure Cognitive Search Service that you created earlier.  If needed, go back and look this up in the [Azure portal](https://portal.azure.com).  
 
-Set the value for the SearchDialogsServiceKey to be the key for this service.  This can be found in the [Azure portal](https://portal.azure.com) under the Keys section for your Azure Search.  In the below screenshot, the SearchDialogsServiceName would be "aiimmersionsearch" and the SearchDialogsServiceKey would be "375...".  
+Set the value for the SearchDialogsServiceKey to be the key for this service.  This can be found in the [Azure portal](https://portal.azure.com) under the Keys section for your Azure Cognitive Search.  In the below screenshot, the SearchDialogsServiceName would be "aiimmersionsearch" and the SearchDialogsServiceKey would be "375...".  
 
-![Azure Search Settings](./resources/assets/AzureSearchSettings.jpg) 
+![Azure Cognitive Search Settings](./resources/assets/AzureSearchSettings.jpg) 
 
-### Lab: Update the bot to use Azure Search
+### Lab: Update the bot to use Azure Cognitive Search
 
-Now, let's update the bot to call Azure Search.  First, open Tools-->NuGet Package Manager-->Manage NuGet Packages for Solution.  In the search box, type "Microsoft.Azure.Search".  Select the corresponding library, check the box that indicates your project, and install it.  It may install other dependencies as well. Under installed packages, you may also need to update the "Newtonsoft.Json" package.
+Now, let's update the bot to call Azure Cognitive Search.  First, open Tools-->NuGet Package Manager-->Manage NuGet Packages for Solution.  In the search box, type "Microsoft.Azure.Search".  Select the corresponding library, check the box that indicates your project, and install it.  It may install other dependencies as well. Under installed packages, you may also need to update the "Newtonsoft.Json" package.
 
-![Azure Search NuGet](./resources/assets/AzureSearchNuGet.jpg) 
+![Azure Cognitive Search NuGet](./resources/assets/AzureSearchNuGet.jpg) 
 
 Right-click on your project in the Solution Explorer of Visual Studio, and select Add-->New Folder.  Create a folder called "Models".  Then right-click on the Models folder, and select Add-->Existing Item.  Do this twice to add these two files under the Models folder (make sure to adjust your namespaces if necessary):
 1. [ImageMapper.cs](./resources/code/Models/ImageMapper.cs)
@@ -652,7 +651,7 @@ Press F5 to run your bot again.  In the Bot Emulator, try searching with "find d
 
 There are a number of things that we can do to improve our bot.  First of all, we may not want to call LUIS for a simple "hi" greeting, which the bot will get fairly frequently from its users.  A simple regular expression could match this, and save us time (due to network latency) and money (due to cost of calling the LUIS service).  
 
-Also, as the complexity of our bot grows, and we are taking the user's input and using multiple services to interpret it, we need a process to manage that flow.  For example, try regular expressions first, and if that doesn't match, call LUIS, and then perhaps we also drop down to try other services like [QnA Maker](http://qnamaker.ai) and Azure Search.  A great way to manage this is [ScorableGroups](https://blog.botframework.com/2017/07/06/Scorables/).  ScorableGroups give you an attribute to impose an order on these service calls.  In our code, let's impose an order of matching on regular expressions first, then calling LUIS for interpretation of utterances, and finally lowest priority is to drop down to a generic "I'm not sure what you mean" response.    
+Also, as the complexity of our bot grows, and we are taking the user's input and using multiple services to interpret it, we need a process to manage that flow.  For example, try regular expressions first, and if that doesn't match, call LUIS, and then perhaps we also drop down to try other services like [QnA Maker](http://qnamaker.ai) and Azure Cognitive Search.  A great way to manage this is [ScorableGroups](https://blog.botframework.com/2017/07/06/Scorables/).  ScorableGroups give you an attribute to impose an order on these service calls.  In our code, let's impose an order of matching on regular expressions first, then calling LUIS for interpretation of utterances, and finally lowest priority is to drop down to a generic "I'm not sure what you mean" response.    
 
 To use ScorableGroups, your RootDialog will need to inherit from DispatchDialog instead of LuisDialog (but you can still have the LuisModel attribute on the class).  You also will need a reference to Microsoft.Bot.Builder.Scorables (as well as others).  So in your RootDialog.cs file, add:
 
@@ -869,24 +868,24 @@ From your bot's dashboard, you can add other channels, and try out your bot in S
 
 **Finish early? Try this extra credit lab:**
 
-Try experimenting with more advanced Azure Search queries. Add term-boosting by extending your LUIS model to recognize entities like _"find happy people"_, mapping "happy" to "happiness" (the emotion returned from Cognitive Services), and turning those into boosted queries using [Term Boosting](https://docs.microsoft.com/en-us/rest/api/searchservice/Lucene-query-syntax-in-Azure-Search#bkmk_termboost). 
+Try experimenting with more advanced Azure Cognitive Search queries. Add term-boosting by extending your LUIS model to recognize entities like _"find happy people"_, mapping "happy" to "happiness" (the emotion returned from Cognitive Services), and turning those into boosted queries using [Term Boosting](https://docs.microsoft.com/en-us/rest/api/searchservice/Lucene-query-syntax-in-Azure-Search#bkmk_termboost). 
 
 ## Lab Completion
 
-In this lab we covered creating an intelligent bot from end-to-end using the Microsoft Bot Framework, Azure Search and several Cognitive Services.
+In this lab we covered creating an intelligent bot from end-to-end using the Microsoft Bot Framework, Azure Cognitive Search and several Cognitive Services.
 
 You should have learned:
 - How to weave intelligent services into your applications
-- How to implement Azure Search features to provide a positive search experience inside an application
-- How to configure an Azure Search service to extend your data to enable full-text, language-aware search
+- How to implement Azure Cognitive Search features to provide a positive search experience inside an application
+- How to configure an Azure Cognitive Search service to extend your data to enable full-text, language-aware search
 - How to build, train and publish a LUIS model to help your bot communicate effectively
-- How to build an intelligent bot using Microsoft Bot Framework that leverages LUIS and Azure Search
+- How to build an intelligent bot using Microsoft Bot Framework that leverages LUIS and Azure Cognitive Search
 - How to call various Cognitive Services APIs (specifically Computer Vision, Face, Emotion and LUIS) in .NET applications
 
 Resources for future projects/learning:
 - [Azure Bot Services documentation](https://docs.microsoft.com/en-us/bot-framework/)
-- [Azure Search documentation](https://docs.microsoft.com/en-us/azure/search/search-what-is-azure-search)
+- [Azure Cognitive Search documentation](https://docs.microsoft.com/en-us/azure/search/search-what-is-azure-search)
 - [Azure Bot Builder Samples](https://github.com/Microsoft/BotBuilder-Samples)
-- [Azure Search Samples](https://github.com/Azure-Samples/search-dotnet-getting-started)
+- [Azure Cognitive Search Samples](https://github.com/Azure-Samples/search-dotnet-getting-started)
 - [LUIS documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/Home)
 - [LUIS Sample](https://github.com/Microsoft/BotBuilder-Samples/blob/master/CSharp/intelligence-LUIS/README.md)

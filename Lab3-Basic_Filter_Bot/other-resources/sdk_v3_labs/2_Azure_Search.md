@@ -1,28 +1,29 @@
-## 2_Azure_Search:
+## 2 Azure Cognitive Search
+
 Estimated Time: 10-15 minutes
 
-### Lab 2.1: Configure your bot for Azure Search 
+### Lab 2.1: Configure your bot for Azure Cognitive Search 
 
-First, we need to provide our bot with the relevant information to connect to an Azure Search index.  The best place to store connection information is in the configuration file.  
+First, we need to provide our bot with the relevant information to connect to an Azure Cognitive Search index.  The best place to store connection information is in the configuration file.  
 
 Open Web.config and in the appSettings section, add the following:
 
-```xml    
-    <!-- Azure Search Settings -->
+```xml
+    <!-- Azure Cognitive Search Settings -->
     <add key="SearchDialogsServiceName" value="" />
     <add key="SearchDialogsServiceKey" value="" />
     <add key="SearchDialogsIndexName" value="images" />
 ```
 
-Set the value for the SearchDialogsServiceName to be the name of the Azure Search Service that you created earlier.  If needed, go back and look this up in the [Azure portal](https://portal.azure.com).  
+Set the value for the SearchDialogsServiceName to be the name of the Azure Cognitive Search Service that you created earlier.  If needed, go back and look this up in the [Azure portal](https://portal.azure.com).  
 
-Set the value for the SearchDialogsServiceKey to be the key for this service.  This can be found in the [Azure portal](https://portal.azure.com) under the Keys section for your Azure Search.  In the below screenshot, the SearchDialogsServiceName would be "aiimmersionsearch" and the SearchDialogsServiceKey would be "375...".  
+Set the value for the SearchDialogsServiceKey to be the key for this service.  This can be found in the [Azure portal](https://portal.azure.com) under the Keys section for your Azure Cognitive Search.  In the below screenshot, the SearchDialogsServiceName would be "aiimmersionsearch" and the SearchDialogsServiceKey would be "375...".  
 
-![Azure Search Settings](./resources/assets/AzureSearchSettings.jpg) 
+![Azure Cognitive Search Settings](./resources/assets/AzureSearchSettings.jpg) 
 
-### Lab 2.2: Update the bot to use Azure Search
+### Lab 2.2: Update the bot to use Azure Cognitive Search
 
-Next, we'll update the bot to call Azure Search.  First, open Tools-->NuGet Package Manager-->Manage NuGet Packages for Solution.  In the search box, type "Microsoft.Azure.Search".  Select the corresponding library, check the box that indicates your project, and install it.  It may install other dependencies as well. Under installed packages, you may also need to update the "Newtonsoft.Json" package.
+Next, we'll update the bot to call Azure Cognitive Search.  First, open Tools-->NuGet Package Manager-->Manage NuGet Packages for Solution.  In the search box, type "Microsoft.Azure.Search".  Select the corresponding library, check the box that indicates your project, and install it.  It may install other dependencies as well. Under installed packages, you may also need to update the "Newtonsoft.Json" package.
 
 ![Azure Search NuGet](./resources/assets/AzureSearchNuGet.jpg) 
 

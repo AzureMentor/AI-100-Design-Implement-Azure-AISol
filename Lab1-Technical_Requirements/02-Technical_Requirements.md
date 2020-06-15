@@ -4,13 +4,13 @@
 
 This lab is meant for an Artificial Intelligence (AI) Engineer or an AI Developer on Azure. To ensure you have time to work through the exercises, there are certain requirements to meet before starting the labs for this course.
 
-You should ideally have some previous exposure to Visual Studio. We will be using it for everything we are building in the labs, so you should be familiar with [how to use it](https://docs.microsoft.com/en-us/visualstudio/ide/visual-studio-ide) to create applications. Additionally, this is not a class where we teach code or development. We assume you have some familiarity with C# (intermediate level - you can learn [here](https://mva.microsoft.com/en-us/training-courses/c-fundamentals-for-absolute-beginners-16169?l=Lvld4EQIC_2706218949) and [here](https://docs.microsoft.com/en-us/dotnet/csharp/quick-starts/)), but you do not know how to implement solutions with Cognitive Services.
+You should ideally have some previous exposure to Visual Studio. We will be using it for everything we are building in the labs, so you should be familiar with [how to use it](https://docs.microsoft.com/en-us/visualstudio/ide/visual-studio-ide) to create applications. Additionally, this is not a class where we teach code or development. We assume you have some familiarity with C# (intermediate level - you can learn [here](https://mva.microsoft.com/en-us/training-courses/c-fundamentals-for-absolute-beginners-16169?l=Lvld4EQIC_2706218949) and [here](https://docs.microsoft.com/en-us/dotnet/csharp/quick-starts/)).
 
 ### Account Setup
 
-> Note: You can use different environments for completing this lab.  Your instructor will guide you through the necessary steps to get the environment up and running.   This could be as simple as using the computer you are logged into in the classroom or as complex as setting up a virtualized environment.  The labs were created and tested using the Azure Data Science Virtual Machine (DSVM) on Azure and as such, will require an Azure account to use.
+> **Note** You can use different environments for completing this lab.  Your instructor will guide you through the necessary steps to get the environment up and running.   This could be as simple as using the computer you are logged into in the classroom or as complex as setting up a virtualized environment.  The labs were created and tested using the Azure Data Science Virtual Machine (DSVM) on Azure and as such, will require an Azure account to use.
 
-#### Setup your Azure Account:
+#### Setup your Azure Account
 
 You may activate an Azure free trial at [https://azure.microsoft.com/en-us/free/](https://azure.microsoft.com/en-us/free/).
 
@@ -18,42 +18,126 @@ If you have been given an Azure Pass to complete this lab, you may go to [http:/
 
 ### Environment Setup
 
-These labs are intended to be used with the .NET Framework using [Visual Studio 2017, Community Edition](https://www.visualstudio.com/downloads/).  The original workshop was designed to be used, and was tested with, the Azure Data Science Virtual Machine (DSVM).  Only premium Azure subscriptions can actually create a DSVM resource on Azure but the labs can be completed with a local computer running Visual Studio 2017 Community Edition and the required software downloads listed throughout the lab steps.
+These labs are intended to be used with the .NET Framework using [Visual Studio 2019](https://www.visualstudio.com/downloads/).  The original workshop was designed to be used, and was tested with, the Azure Data Science Virtual Machine (DSVM).  Only premium Azure subscriptions can actually create a DSVM resource on Azure but the labs can be completed with a local computer running Visual Studio 2019 and the required software downloads listed throughout the lab steps.
 
-### Key Setup
+### Urls and Keys Needed
 
-Over the course of this lab, we will collect a variety of Cognitive Services keys and storage keys. You should save all of them in a text file so you can easily access them in future labs.
+Over the course of this lab, we will collect a variety of Cognitive Services keys and storage keys. You should save all of them in a text file so you can easily access them in future labs. Not all of these will be populated in this lab.
 
 >_Keys_
 >
->- Cognitive Services Training key:
+>- Cognitive Services API Url:
 >- Cognitive Services API key:
->- LUIS API endpoint, key, app ID:
+>- LUIS API Endpoint:
+>- LUIS API Key:
+>- LUIS API App ID:
 >- Bot App Name:
 >- Bot App ID:
 >- Bot App Password:
+>- Azure Storage Connection String:
+>- Cosmos DB Url:
+>- Cosmos DB Key:
+>- DirectLine Key:
 
+### Azure Setup
 
-#### Getting a training key:
+In the following steps, you will configure the Azure environment for the labs that follow.
 
-The training API key allows you to create, manage and train Custom Vision projects programmatically. Training keys can be found on the AI services that support them.  Otherwise, you can use the keys that are generated for each service that you create.   The labs will discuss the key locations for the appropriate service.
+#### Cognitive Services
 
-> Note: Internet Explorer is not supported. We recommend using Edge, Firefox, or Chrome.
+While the first lab focuses on the [Computer Vision](https://www.microsoft.com/cognitive-services/en-us/computer-vision-api) Cognitive Service, Microsoft Azure allows you to create a cognitive service account that spans all services, or you can elect to create a cognitive service account for an individual service.  In the following steps, you will create a single Azure resource that contains all available cognitive services endpoints.
 
-#### Getting Cognitive Services API key:
+1. Open the [Azure Portal](https://portal.azure.com)
 
-We'll primarily be using the [Computer Vision](https://www.microsoft.com/cognitive-services/en-us/computer-vision-api) Cognitive Service, so let's create an API key for that service.
+2. Select **+ Create a Resource** and then enter **cognitive services** in the search box
 
-In the Portal, click the **"+ New"** button (when you hover over it, it will say **Create a resource**) and then enter **computer vision** in the search box and choose **Computer Vision API**:
+3. Choose **Cognitive Services** from the available options, then select **Create**
 
-![Creating a Cognitive Service Key](../../Linked_Image_Files/new-cognitive-services.PNG)
+> **Note** Again to reiterate, you can create specific cognitive services resources or you can create a single resource that contains all the endpoints.
 
-This will lead you to fill out a few details for the API endpoint you'll be creating, choosing the API you're interested in and where you'd like your endpoint to reside (**!!put in the West US region or it will not work!!**), as well as what pricing plan you'd like. We'll be using **S1** so that we have the throughput we need for the tutorial. _Pin to dashboard_ so that you can easily find it. Since the Computer Vision API stores images internally at Microsoft (in a secure fashion), to help improve future Cognitive Services Vision offerings, you'll need to check the box that states you're ok with this before you can create the resource.
+1. Type a name of your own choosing
 
-**Double check that you put your Computer Vision service in West US**
+1. Select your subscription and resource group
 
-> The code in the following labs has been set up to use West US for calling the Computer Vision API. In your future endeavors, you can learn how to call other regions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/Computer-vision/Vision-API-How-to-Topics/HowToSubscribe).
+1. For the pricing tier, select **S0**
 
+1. Check the confirmation checkbox
+
+1. Select **Create**
+
+1. Navigate to the new resource, select **Quick Start**
+
+1. Copy the **API Key** and the **url of the endpoint** to your notepad
+
+    ![Quick start and the Key1 and Endpoint values are highlighted](../images/lab01-cogskeys.png 'The service key and endpoint values are highlighted')
+
+#### Azure Storage Account
+
+1. In the Azure Portal, select **+ Create a Resource** and then enter **storage** in the search box
+
+1. Choose **Storage account** from the available options, then select **Create**
+
+1. Select your subscription and resource group
+
+1. Type a unique name for your account
+
+1. For the location, select the same as your resource group
+
+1. Performance should be **Standard**
+
+1. Account kind should be **StorageV2 (general purpose v2**)
+
+1. For replication, select **Locally-redundant storage (LRS)**
+
+    ![The values for a storage account are displayed](../images/lab01-storageaccount.png 'Create a storage account')
+
+1. Select **Review + create**
+
+1. Select**Create**
+
+1. Navigate to the new resource, select **Access Keys**
+
+1. Copy the **Connection string** to your notepad
+
+    ![The Access Keys and Connection string value is highlighted](../images/lab01-storageaccountkeys.png 'Copy the connection string')
+
+1. Select **Overview**, then select **Containers**
+
+    ![The overview and containers links are highlighted](../images/lab01-storageaccountcontainers.png 'Open the storage account containers')
+
+1. Select **+ Container**
+
+1. For the name, type **images**
+
+    ![The container button is highlighted and the container name is populated.  The OK button is also highlighted.](../images/lab01-storageaccountcontainercreate.png 'Create a container called images')
+
+1. Select **OK**
+
+#### Cosmos DB
+
+1. Open the [Azure Portal](https://portal.azure.com)
+
+1. Select **"+ Create a Resource"** and then enter **cosmos** in the search box
+
+1. Choose **Azure Cosmos DB** from the available options.  
+
+1. Select **Create**
+
+1. Select your subscription and resource group
+
+1. Type a unique account name
+
+1. Select a location that matches your resource group
+
+    ![The cosmosdb creation details are populated.](../images/lab01-cosmoscreate.png 'Create a cosmosdb resource')
+
+1. Select **Review + create**
+
+1. Select **Create**
+
+1. Navigate to the new resource, under **Settings**, select **Keys**
+
+1. Copy the **URI** and the **PRIMARY KEY** to your notepad
 
 ### Bot Builder SDK
 
@@ -61,40 +145,42 @@ We will use the Bot Builder template for C# to create bots in this course.
 
 #### Download the Bot Builder SDK
 
-Download the [Bot Builder SDK v4 Template for C# here](https://marketplace.visualstudio.com/items?itemName=BotBuilder.botbuilderv4) and click "Save as" to save it to your Visual Studio ItemTemplates folder  for Visual C#. This is typically located in `C:\Users\`_your-username_`\Documents\Visual Studio 2017\Templates\ItemTemplates\Visual C#`. Navigate to the folder location and double-click on the install and click "Install" to add the template to your Visual Studio templates. Depending on your browser, when you download the template, you can double-click on it and install it directly to Visual Studio Community 2017; that is fine.
+1. Open a browser window to [Bot Builder SDK v4 Template for C# here](https://marketplace.visualstudio.com/items?itemName=BotBuilder.botbuilderv4)
+
+1. Select **Download**
+
+1. Navigate to the download folder location and double-click on the install
+
+1. Ensure that all versions of Visual Studio are selected and select **Install**.  If prompted, select **End Tasks**.  
+
+1. Select **Close**. You should now have the bot templates added to your Visual Studio templates.
 
 ### Bot Emulator
 
-We will be developing a bot using the latest .NET SDK (v4).  To get started, we'll need to download the Bot Framework Emulator, and we'll need to create a Web App Bot and get the source code.
+We will be developing a bot using the latest .NET SDK (v4).  In order to do local testing, we'll need to download the Bot Framework Emulator.
 
-##### Download the Bot Framework Emulator
+### Download the Bot Framework Emulator
 
-You can download the v4 Preview Bot Framework Emulator for testing your bot locally. The instructions for the rest of the labs will assume you've downloaded the v4 Emulator (as opposed to the v3 Emulator). Download the emulator by going to [this page](https://github.com/Microsoft/BotFramework-Emulator/releases) and downloading the most recent version of the emulator that has the tag "4.1.0" (select the ".exe" file, if you are using windows).
+You can download the v4 Bot Framework Emulator for testing your bot locally. The instructions for the rest of the labs will assume you've downloaded the v4 Emulator.
 
-The emulator installs to `c:\Users\`_your-username_`\AppData\Local\botframework\app-`_version_`\botframework-emulator.exe` or to your Downloads folder, depending on browser.
+1. Download the emulator by going to [this page](https://github.com/Microsoft/BotFramework-Emulator/releases) and downloading the most recent version of the emulator that has the tag "4.6.0" or higher (select the "*-windows-setup.exe" file, if you are using windows).
 
-## Lab 1.2: Architectural overview
+> **Note** The emulator installs to
+`"C:\Users\_your-username\AppData\Local\Programs\@bfemulatormain\Bot Framework Emulator.exe"`, but you can gain access to it through the start menu by searching for **bot framework**.
 
-We will build a simple C# application that allows you to ingest pictures from your local drive, then invoke the [Computer Vision API](https://www.microsoft.com/cognitive-services/en-us/computer-vision-api) to analyze the images and obtain tags and a description.
+## Credits
 
-In the continuation of this lab throughout the lab, we'll show you how to build a [Bot Framework](https://dev.botframework.com/) bot to interact with customers' text inquiries. We will then demonstrate a quick solution for integrating existing Knowledge Bases and FAQs into a bot framework with the [QnA Maker](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/overview/overview). Finally, we'll extend this bot with [LUIS](https://www.microsoft.com/cognitive-services/en-us/language-understanding-intelligent-service-luis) to automatically derive intent from your queries and use those to respond to your customers' text requests intelligently.
+Labs in this series were adapted from the [Cognitive Services Tutorial](https://github.com/noodlefrenzy/CognitiveServicesTutorial) and [Learn AI BootCamp](https://github.com/Azure/LearnAI-Bootcamp)
 
-We will only provide context for using Bing Search to enable customers to access other data during interactions with the bot, but will not implement these scenarios during the lab. Participants are invited to read further about the [Bing Web Search](https://azure.microsoft.com/en-us/services/cognitive-services/directory/search/) services.
-
-While out of scope for this lab, this architecture integrates Azure's data solutions manage storage of images and metadata in this architecture, through [Blob Storage]((https://docs.microsoft.com/en-us/azure/storage/storage-dotnet-how-to-use-blobs)) and [Cosmos DB](https://azure.microsoft.com/en-us/services/cosmos-db/).
-
-![Architecture Diagram](../../Linked_Image_Files/AI_Immersion_Arch.png)
-
-## Lab 1.3: Resources for future projects/learning
+## Resources
 
 To deepen your understanding of the architecture described here, and to involve your broader team in the development of AI solutions, we recommend reviewing the following resources:
 
 - [Cognitive Services](https://www.microsoft.com/cognitive-services) - AI Engineer
 - [Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/) - Data Engineer
-- [Azure Search](https://azure.microsoft.com/en-us/services/search/) - Search Engineer
+- [Azure Cognitive Search](https://azure.microsoft.com/en-us/services/search/) - Search Engineer
 - [Bot Developer Portal](http://dev.botframework.com) - AI Engineer
 
+## Next Steps
 
-## Credits
-
-Labs in this series were adapted from the [Cognitive Services Tutorial](https://github.com/noodlefrenzy/CognitiveServicesTutorial) and [Learn AI Bootcamp](https://github.com/Azure/LearnAI-Bootcamp)
+- [Lab 02-01: Implement Computer Vision](../Lab2-Implement_Computer_Vision/01-Introduction.md)
