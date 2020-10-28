@@ -28,7 +28,7 @@ As a review, these are the steps you will generally take when creating LUIS appl
 
 ## Lab 6.0: Creating the LUIS service in the portal (optional)
 
-Creating a LUIS service in the portal is optional, as LUIS provides you with a "starter key" that you can use for the labs. However, if you want to see how to create a free or paid service in the portal, you can follow the steps below.  
+Creating a LUIS service in the portal is optional. However, if you want to see how to create a free or paid service in the portal, you can follow the steps below.  
 
 > **Note** If you ran the pre-req ARM Template, you will already have a cognitive services resource that included the Language Understanding APIs.
 

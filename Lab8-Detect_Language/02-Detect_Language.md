@@ -6,9 +6,9 @@ In this lab we are going to integrate language detection ability of cognitive se
 
 1. Open the [Azure Portal](https://portal.azure.com)
 
-1. Navigate to your resource group, select the cognitive services resource that is generic (aka, it contains all end points).
+1. Search for **Cognitive Services** using the portal search, select the cognitive services resource that is generic (aka, it contains all end points with the **kind** **CognitiveServices**).
 
-1. Under **RESOURCE MANAGEMENT**, select the **Quick Start** tab and record the url and the key for the cognitive services resource
+1. Under **RESOURCE MANAGEMENT**, select the **Keys and Endpoint** tab and record the url and the key for the cognitive services resource
 
 ## Lab 8.2: Add language support to your bot
 

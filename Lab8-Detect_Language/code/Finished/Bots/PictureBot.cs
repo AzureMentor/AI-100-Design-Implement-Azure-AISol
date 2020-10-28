@@ -60,8 +60,7 @@ namespace PictureBot.Bots
                 await _accessors.ConversationState.SaveChangesAsync(turnContext);
 
                 //Check the language
-                var result = _textAnalyticsClient.DetectLanguage(turnContext.Activity.Text);
-
+                var result = _textAnalyticsClient.DetectLanguage(turnContext.Activity.Text, "us");
                 switch (result.DetectedLanguages[0].Name)
                 {
                     case "English":
